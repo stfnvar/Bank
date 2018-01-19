@@ -37,6 +37,9 @@ public class Racun implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date datumVazenja;
 	
+	@Column
+	private String stanjeRacuna;
+	
 	public Long getId() {
 		return id;
 	}
@@ -83,6 +86,14 @@ public class Racun implements Serializable {
 
 	public void setDatumVazenja(Date datumVazenja) {
 		this.datumVazenja = datumVazenja;
+	}
+
+	public String getStanjeRacuna() {
+		return stanjeRacuna;
+	}
+
+	public void setStanjeRacuna(String stanjeRacuna) {
+		this.stanjeRacuna = stanjeRacuna;
 	}
 	
 }

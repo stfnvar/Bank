@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -49,6 +50,14 @@ public class Klijent implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "klijent", orphanRemoval = true, targetEntity = Racun.class)
 	private List<Racun> racuni;
 
+	@Column(nullable = true)
+	@Size(max = 30)
+	private String merchantId;
+	
+	@Column(nullable = true)
+	@Size(max = 100)
+	private String merchantPassword;
+	
 	public Long getId() {
 		return id;
 	}
@@ -121,6 +130,22 @@ public class Klijent implements Serializable{
 	@JsonProperty
 	public void setRacuni(List<Racun> racuni) {
 		this.racuni = racuni;
+	}
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantPassword() {
+		return merchantPassword;
+	}
+
+	public void setMerchantPassword(String merchantPassword) {
+		this.merchantPassword = merchantPassword;
 	}
 	
 }
