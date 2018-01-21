@@ -1,5 +1,8 @@
 package com.tim2.bank.serviceimpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +30,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 		Klijent klijent = klijentRepository.findKlijentByMerchantId(uplata.getTrgovacId());
 		if (klijent.getMerchantPassword().equals(uplata.getLozinkaTrgovca())) {
 			// gadjaj link na frontu za unos podataka
-			return "localhost:8300/placanje/unosPodataka/1";
+			return "localhost:2100/plati-uslugu/AJDIGENERISATI";
 		} else {
 			return uplata.getErrorUrl();
 		}
@@ -36,9 +39,10 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	@Override
 	public RezultatTransakcije issuerProveriZahtev(Transakcija transakcija) {
 		Racun racun = racunRepository.findRacunByBrojRacuna(transakcija.getPan());
+		String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 		RezultatTransakcije rz = new RezultatTransakcije(transakcija.getPan(), transakcija.getSigurnosniKod(),
 				transakcija.getNazivVlasnikaKartice(), transakcija.getDatumVazenja(), transakcija.getIznos(),
-				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), "123", "STAGOD", false);
+				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), "AJDINEKI", timestamp, false);
 		if (Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos()) > 0) {
 			rz.setRezultat(true);
 		}
