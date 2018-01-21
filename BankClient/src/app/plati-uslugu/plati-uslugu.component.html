@@ -3,15 +3,15 @@
     <fieldset>
       <legend>Plaćanje</legend>
       <div class="form-group">
-        <label class="col-sm-3 control-label" for="card-holder-name">Vlasnik kartice</label>
+        <label class="col-sm-3 control-label"  for="card-holder-name">Vlasnik kartice</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" name="card-holder-name" id="card-holder-name" placeholder="Ime vlasnika kartice">
+          <input type="text" class="form-control" [(ngModel)] = "vlasnik" name="card-holder-name" id="card-holder-name" placeholder="Ime vlasnika kartice">
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-3 control-label" for="card-number">Broj kartice</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" name="card-number" id="card-number" placeholder="Broj kartice (debitna/kreditna)">
+          <input type="text" class="form-control" [(ngModel)] = "brojKartice" name="card-number" id="card-number" placeholder="Broj kartice (debitna/kreditna)">
         </div>
       </div>
       <div class="form-group">
@@ -19,7 +19,7 @@
         <div class="col-sm-9">
           <div class="row">
             <div class="col-xs-3">
-              <select class="form-control col-sm-2" name="expiry-month" id="expiry-month">
+              <select class="form-control col-sm-2" name="expiry-month" id="expiry-month" [(ngModel)] = "mesecIsteka"> 
                 <option>Mesec</option>
                 <option value="01">Jan (01)</option>
                 <option value="02">Feb (02)</option>
@@ -36,7 +36,7 @@
               </select>
             </div>
             <div class="col-xs-3">
-              <select class="form-control" name="expiry-year">
+              <select class="form-control" name="expiry-year" [(ngModel)] = "godinaIsteka">
                 <option value="13">2013</option>
                 <option value="14">2014</option>
                 <option value="15">2015</option>
@@ -56,12 +56,12 @@
       <div class="form-group">
         <label class="col-sm-3 control-label" for="cvv">Sigurnosni broj</label>
         <div class="col-sm-3">
-          <input type="text" class="form-control" name="cvv" id="cvv" placeholder="Sigurnosni broj na poleđini kartice">
+          <input type="text" class="form-control" [(ngModel)] = "sigurnosniBroj" name="cvv" id="cvv" placeholder="Sigurnosni broj na poleđini kartice">
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-          <button type="button" class="btn btn-success">Pay Now</button>
+          <button (click)="postTransakcija()" type="button" class="btn btn-success">Plati</button>
         </div>
       </div>
     </fieldset>
