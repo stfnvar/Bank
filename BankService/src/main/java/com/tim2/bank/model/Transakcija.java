@@ -2,15 +2,31 @@ package com.tim2.bank.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Transakcija {
 	
-	protected String pan;
-	protected String sigurnosniKod;
-	protected String nazivVlasnikaKartice;
-	protected Date datumVazenja;
-	protected String iznos;
+	@Id
+	@GeneratedValue
+	private Long id;
 	
+	@Column
+	protected String pan;
+	@Column
+	protected String sigurnosniKod;
+	@Column
+	protected String nazivVlasnikaKartice;
+	@Column
+	protected Date datumVazenja;
+	@Column
+	protected String iznos;
+	@Column
 	protected String acquirerOrderId;
+	@Column
 	protected String acquirerTimestamp;
 	
 	public Transakcija(){
@@ -28,6 +44,15 @@ public class Transakcija {
 		this.acquirerOrderId = acquirerOrderId;
 		this.acquirerTimestamp = acquirerTimestamp;
 	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getPan() {
 		return pan;
 	}

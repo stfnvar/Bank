@@ -39,6 +39,29 @@ public class Banka implements Serializable{
 	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Klijent.class, mappedBy = "banka")
 	private List<Klijent> klijenti;
 
+	@Column
+	private String swiftCode;
+	
+	@Column
+	private String url;
+	
+	
+	public String getSwiftCode() {
+		return swiftCode;
+	}
+
+	public void setSwiftCode(String swiftCode) {
+		this.swiftCode = swiftCode;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public Long getId() {
 		return id;
 	}
