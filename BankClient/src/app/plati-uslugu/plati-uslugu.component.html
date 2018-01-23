@@ -1,17 +1,32 @@
 <div class="container">
-  <form class="form-horizontal" role="form">
+  <form class="form-horizontal" role="form" (ngSubmit)="onSubmit()" #transakcijaForm="ngForm">
     <fieldset>
       <legend>Plaćanje</legend>
       <div class="form-group">
         <label class="col-sm-3 control-label"  for="card-holder-name">Vlasnik kartice</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" [(ngModel)] = "vlasnik" name="card-holder-name" id="card-holder-name" placeholder="Ime vlasnika kartice">
+          <input type="text" class="form-control" id="vlasnik" [(ngModel)] = "transakcija.vlasnik" 
+          required="required" pattern="[a-zA-Z]+\s[a-zA-Z]+" #vlasnik="ngModel" name="card-holder-name" id="card-holder-name" placeholder="Ime vlasnika kartice">
+          <div [hidden]="vlasnik.valid || vlasnik.pristine"
+            class="alert alert-danger">
+            <div [hidden]="!vlasnik.hasError('required')">Neplavilan unos imena vlasnika</div>
+            <div [hidden]="!vlasnik.hasError('pattern')">Nepravilan unos imena vlasnika</div>
+          </div>
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-3 control-label" for="card-number">Broj kartice</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" [(ngModel)] = "brojKartice" name="card-number" id="card-number" placeholder="Broj kartice (debitna/kreditna)">
+          <input type="text" class="form-control" 
+          [(ngModel)] = "transakcija.brojKartice" name="card-number" 
+          pattern="[0-9-]+" required="required"
+          #brojKartice="ngModel"
+          id="card-number" placeholder="Broj kartice (debitna/kreditna)">
+          <div [hidden]="brojKartice.valid || brojKartice.pristine"
+            class="alert alert-danger">
+            <div [hidden]="!brojKartice.hasError('required')">Neplavilan unos broja kartice</div>
+            <div [hidden]="!brojKartice.hasError('pattern')">Nepravilan unos broja kartice</div>
+       </div>
         </div>
       </div>
       <div class="form-group">
@@ -19,7 +34,7 @@
         <div class="col-sm-9">
           <div class="row">
             <div class="col-xs-3">
-              <select class="form-control col-sm-2" name="expiry-month" id="expiry-month" [(ngModel)] = "mesecIsteka"> 
+              <select required="true" class="form-control col-sm-2" name="expiry-month" id="expiry-month" [(ngModel)] = "mesecIsteka"> 
                 <option>Mesec</option>
                 <option value="01">Jan (01)</option>
                 <option value="02">Feb (02)</option>
@@ -36,7 +51,7 @@
               </select>
             </div>
             <div class="col-xs-3">
-              <select class="form-control" name="expiry-year" [(ngModel)] = "godinaIsteka">
+              <select required="true" class="form-control" name="expiry-year" [(ngModel)] = "godinaIsteka">
                 <option value="13">2013</option>
                 <option value="14">2014</option>
                 <option value="15">2015</option>
@@ -56,12 +71,22 @@
       <div class="form-group">
         <label class="col-sm-3 control-label" for="cvv">Sigurnosni broj</label>
         <div class="col-sm-3">
-          <input type="text" class="form-control" [(ngModel)] = "sigurnosniBroj" name="cvv" id="cvv" placeholder="Sigurnosni broj na poleđini kartice">
+          <input type="text" pattern  ="[0-9]{3}" #sigurnosniBroj="ngModel"  minlength="1" 
+          maxlength="3" class="form-control" [(ngModel)] = "transakcija.sigurnosniBroj" 
+          name="cvv" id="cvv" placeholder="Sigurnosni broj na poleđini kartice"
+          required="required">
+          <div [hidden]="sigurnosniBroj.valid || sigurnosniBroj.pristine"
+            class="alert alert-danger">
+            <div [hidden]="!sigurnosniBroj.hasError('required')">Neplavilan unos sigurnosnog broja</div>
+            <div [hidden]="!sigurnosniBroj.hasError('pattern')">Nepravilan unos sigurnosnog broja</div>
         </div>
+      </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-          <button (click)="postTransakcija()" type="button" class="btn btn-success">Plati</button>
+          <button (click)="postTransakcija()" type="button"
+          [disabled]="!transakcijaForm.form.valid"
+          class="btn btn-success">Plati</button>
         </div>
       </div>
     </fieldset>

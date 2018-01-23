@@ -4,5 +4,5 @@ import { PlatiUsluguComponent} from "../plati-uslugu/plati-uslugu.component";
 
 
 export const routes: Routes = [
-    { path: 'plati-uslugu/:id', component: PlatiUsluguComponent },
+    { path: 'plati-uslugu/:payment_url/:payment_id', component: PlatiUsluguComponent },
 ]
