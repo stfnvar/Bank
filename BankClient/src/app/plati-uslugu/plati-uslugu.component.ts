@@ -4,6 +4,8 @@ import { Component, OnInit, Directive, forwardRef, Attribute,
 import { NG_VALIDATORS, Validator, 
         Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
+import {Router, ActivatedRoute, Params} from '@angular/router';
+
 import { PlatiUsluguService } from '../service/plati-uslugu.service';
 import { Transakcija } from '../shared/Transakcija';
 import { Md5 } from 'ts-md5/dist/md5'; 
@@ -15,14 +17,13 @@ import { Md5 } from 'ts-md5/dist/md5';
 })
 export class PlatiUsluguComponent implements OnInit {
 
-  constructor(private platiUsluguService: PlatiUsluguService) { }
+  constructor(private platiUsluguService: PlatiUsluguService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   vlasnik: string;
   mesecIsteka: string;
   godinaIsteka: string;
   sigurnosniBroj: string;
   brojKartice: string;
-
 
   transakcija: Transakcija = {
     pan: "",
@@ -34,7 +35,15 @@ export class PlatiUsluguComponent implements OnInit {
     acquirerTimestamp: ""
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let paymentUrl = params["payment_url"];
+      let paymentId = params["payment_id"]; 
+      if(!this.platiUsluguService.checkPaymentValidity(paymentUrl, paymentId)){
+        this.router.navigate(['pr']);
+      }
+    });
+  }
 
   postTransakcija(){
 
@@ -60,8 +69,6 @@ export class PlatiUsluguComponent implements OnInit {
       valueForGenerate =  Md5.hashStr(valueForGenerate) + acquirerTimestamp;
       return valueForGenerate.replace(" ", "");
   }
-
-
 
   submitted = false;
   onSubmit() { this.submitted = true; }

@@ -15,6 +15,7 @@ import com.tim2.bank.model.Uplata;
 import com.tim2.bank.repository.KlijentRepository;
 import com.tim2.bank.repository.RacunRepository;
 import com.tim2.bank.repository.TransakcijaRepository;
+import com.tim2.bank.repository.UplataRepository;
 import com.tim2.bank.service.PlacanjeService;
 
 @Service
@@ -29,12 +30,21 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	@Autowired
 	private TransakcijaRepository transakcijaRepository;
 	
+	@Autowired
+	private UplataRepository uplataRepository;
+	
 	@Override
 	public String acquirerProveriZahtev(Uplata uplata) {
 		Klijent klijent = klijentRepository.findKlijentByMerchantId(uplata.getTrgovacId());
 		if (klijent.getMerchantPassword().equals(uplata.getLozinkaTrgovca())) {
 			// gadjaj link na frontu za unos podataka
 			String url = generatePaymentUrl(uplata.getId());
+			
+			uplata.setUplataLink(url);
+			uplata.setUplataIdDatabase(uplata.getId());
+			uplata.setId(null);
+			
+			uplataRepository.save(uplata);
 			return url;
 		} else {
 			return uplata.getErrorUrl();
@@ -49,7 +59,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
         String characters = upper + lower + numbers;
         StringBuilder builder = new StringBuilder();
         Random random = new Random();
-        int length = random.nextInt(255);
+        int length = random.nextInt(100);
         
         while(builder.length() < length){
         	int index = (int) (random.nextFloat() * characters.length());
@@ -59,6 +69,14 @@ public class PlacanjeServiceImpl implements PlacanjeService {
         String ret = "localhost:2100/plati-uslugu/" + builder.toString() + "/" + id;
 		
 		return ret;
+	}
+	
+	@Override
+	public boolean proveriUrl(String uplataLink, Long uplataId) {
+		if(uplataRepository.getUplataByUplataLinkContainingAndUplataIdDatabase(uplataLink, uplataId) != null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -77,5 +95,4 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 
 		return rz;
 	}
-
 }

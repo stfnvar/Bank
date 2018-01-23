@@ -2,18 +2,48 @@ package com.tim2.bank.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Uplata {
 	
+	@Id
+	@GeneratedValue
 	private Long id;
+	
+	@Column
 	private String trgovacId;
+	
+	@Column
 	private String lozinkaTrgovca;
+	
+	@Column
 	private double iznos;
+	
+	@Column
 	private Date datumUplate;
+	
+	@Column
 	private String errorUrl;
+	
+	@Column
 	private Osiguranje osiguranje;
+	
+	@Column
 	private StatusUplate status;
+	
+	@Column
 	private String nacinPlacanja;
+	
+	@Column
+	private String uplataLink;
 
+	@Column
+	private Long uplataIdDatabase;
+	
 	public Long getId() {
 		return id;
 	}
@@ -67,6 +97,18 @@ public class Uplata {
 	}
 	public void setNacinPlacanja(String nacinPlacanja) {
 		this.nacinPlacanja = nacinPlacanja;
+	}
+	public String getUplataLink() {
+		return uplataLink;
+	}
+	public void setUplataLink(String uplataLink) {
+		this.uplataLink = uplataLink;
+	}
+	public Long getUplataIdDatabase() {
+		return uplataIdDatabase;
+	}
+	public void setUplataIdDatabase(Long uplataIdDatabase) {
+		this.uplataIdDatabase = uplataIdDatabase;
 	}
 	
 }

@@ -1,9 +1,11 @@
 package com.tim2.bank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -37,6 +39,13 @@ public class PlacanjeController {
 		//poslati na front wrapper koji sadrzi uplatu i link!
 		return ret;
 	}
+	
+	@GetMapping("/proveriUrl")
+	@ResponseBody
+	public boolean proveriUrl(@RequestParam("paymentUrl") String paymentUrl, @RequestParam("paymentId") Long paymentId){
+		return placanjeServiceImpl.proveriUrl(paymentUrl, paymentId);
+	}
+	
 	//acquirer salje podatke pcc-u
 	@PostMapping("/unesiPodatke")
 	@ResponseBody
