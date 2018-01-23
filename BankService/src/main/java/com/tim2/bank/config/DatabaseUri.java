@@ -12,6 +12,17 @@ public class DatabaseUri {
 	@Value("${spring.data.pcc}")
 	private String pccUri;
 
+	@Value("${spring.data.concetrator}")
+	private String concetratorUri;
+	
+	public String getConcetratorUri() {
+		return concetratorUri;
+	}
+
+	public void setConcetratorUri(String concetratorUri) {
+		this.concetratorUri = concetratorUri;
+	}
+
 	public String getWebAppUri() {
 		return webAppUri;
 	}

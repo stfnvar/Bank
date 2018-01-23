@@ -2,6 +2,7 @@ package com.tim2.bank.serviceimpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,14 +31,34 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	
 	@Override
 	public String acquirerProveriZahtev(Uplata uplata) {
-
 		Klijent klijent = klijentRepository.findKlijentByMerchantId(uplata.getTrgovacId());
 		if (klijent.getMerchantPassword().equals(uplata.getLozinkaTrgovca())) {
 			// gadjaj link na frontu za unos podataka
-			return "localhost:2100/plati-uslugu/AJDIGENERISATI";
+			String url = generatePaymentUrl(uplata.getId());
+			return url;
 		} else {
 			return uplata.getErrorUrl();
 		}
+	}
+	
+	private String generatePaymentUrl(Long id){		
+        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lower = upper.toLowerCase();
+        String numbers = "1234567890";
+        
+        String characters = upper + lower + numbers;
+        StringBuilder builder = new StringBuilder();
+        Random random = new Random();
+        int length = random.nextInt(255);
+        
+        while(builder.length() < length){
+        	int index = (int) (random.nextFloat() * characters.length());
+        	builder.append(characters.charAt(index));
+        }
+        
+        String ret = "localhost:2100/plati-uslugu/" + builder.toString() + "/" + id;
+		
+		return ret;
 	}
 
 	@Override
