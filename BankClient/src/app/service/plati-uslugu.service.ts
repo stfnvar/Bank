@@ -15,9 +15,9 @@ export class PlatiUsluguService {
       this.http.post('/api/placanje/unesiPodatke/', transakcija).toPromise();
   }
   
-  checkPaymentValidity(paymentUrl: string, paymentId: string): Promise<boolean> {
+  checkPaymentValidity(paymentUrl: string, paymentId: string): Promise<number> {
     return this.http.get("/api/placanje/proveriUrl?paymentUrl="+paymentUrl + "&paymentId="+paymentId).
-    toPromise().then(response => { response.json() as boolean}).catch(this.handleError);
+    toPromise().then(response => { return response.json() as number}).catch(this.handleError);
   
   }
     

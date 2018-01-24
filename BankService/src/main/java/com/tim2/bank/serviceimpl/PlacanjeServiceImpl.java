@@ -72,11 +72,13 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	}
 	
 	@Override
-	public boolean proveriUrl(String uplataLink, Long uplataId) {
-		if(uplataRepository.getUplataByUplataLinkContainingAndUplataIdDatabase(uplataLink, uplataId) != null) {
-			return true;
+	public double proveriUrl(String uplataLink, Long uplataId) {
+		Uplata uplata = uplataRepository.getUplataByUplataLinkContainingAndUplataIdDatabase(uplataLink, uplataId);
+		if(uplata != null) {
+			System.out.println("UPLATAAA: " + uplata.getIznos());
+			return uplata.getIznos();
 		}
-		return false;
+		return -1;
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 		String issuerTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 		RezultatTransakcije rz = new RezultatTransakcije(transakcija.getPan(), transakcija.getSigurnosniKod(),
 				transakcija.getNazivVlasnikaKartice(), transakcija.getDatumVazenja(), transakcija.getIznos(),
-				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), tran.getId().toString(), issuerTimestamp, false);
+				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), transakcija.getAcquirerSwiftCode(),tran.getId().toString(), issuerTimestamp, false);
 		if (Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos()) > 0) {
 			rz.setRezultat(true);
 			racun.setStanjeRacuna( Double.toString(Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos())) );
@@ -94,5 +96,11 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 		}
 
 		return rz;
+	}
+
+	@Override
+	public Transakcija setAcquirerSwiftCode(Transakcija transakcija) {
+		transakcija.setAcquirerSwiftCode("789");
+		return transakcija;
 	}
 }

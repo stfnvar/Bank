@@ -13,8 +13,8 @@ public class RezultatTransakcije extends Transakcija {
 	}
 	
 	public RezultatTransakcije(String pan, String sigurnosniKod, String nazivVlasnikaKartice, Date datumVazenja,
-			String iznos, String acquirerOrderId, String acquirerTimestamp, String issuerOrderId, String issuerTimestamp, boolean rezultat) {
-		super(pan, sigurnosniKod, nazivVlasnikaKartice, datumVazenja, iznos, acquirerOrderId, acquirerTimestamp);
+			String iznos, String acquirerOrderId, String acquirerTimestamp, String acquirerSwiftCode,String issuerOrderId, String issuerTimestamp, boolean rezultat) {
+		super(pan, sigurnosniKod, nazivVlasnikaKartice, datumVazenja, iznos, acquirerOrderId, acquirerTimestamp, acquirerSwiftCode);
 		this.issuerOrderId = issuerOrderId;
 		this.issuerTimestamp = issuerOrderId;
 		this.rezultat = rezultat;

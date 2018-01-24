@@ -5,7 +5,7 @@
       <div class="form-group">
         <label class="col-sm-3 control-label"  for="card-holder-name">Vlasnik kartice</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="vlasnik" [(ngModel)] = "transakcija.vlasnik" 
+          <input type="text" class="form-control" id="vlasnik" [(ngModel)] = "transakcija.nazivVlasnikaKartice" 
           required="required" pattern="[a-zA-Z]+\s[a-zA-Z]+" #vlasnik="ngModel" name="card-holder-name" id="card-holder-name" placeholder="Ime vlasnika kartice">
           <div [hidden]="vlasnik.valid || vlasnik.pristine"
             class="alert alert-danger">
@@ -18,7 +18,7 @@
         <label class="col-sm-3 control-label" for="card-number">Broj kartice</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" 
-          [(ngModel)] = "transakcija.brojKartice" name="card-number" 
+          [(ngModel)] = "transakcija.pan" name="card-number" 
           pattern="[0-9-]+" required="required"
           #brojKartice="ngModel"
           id="card-number" placeholder="Broj kartice (debitna/kreditna)">
@@ -72,7 +72,7 @@
         <label class="col-sm-3 control-label" for="cvv">Sigurnosni broj</label>
         <div class="col-sm-3">
           <input type="text" pattern  ="[0-9]{3}" #sigurnosniBroj="ngModel"  minlength="1" 
-          maxlength="3" class="form-control" [(ngModel)] = "transakcija.sigurnosniBroj" 
+          maxlength="3" class="form-control" [(ngModel)] = "transakcija.sigurnosniKod" 
           name="cvv" id="cvv" placeholder="Sigurnosni broj na poleđini kartice"
           required="required">
           <div [hidden]="sigurnosniBroj.valid || sigurnosniBroj.pristine"

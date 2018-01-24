@@ -7,5 +7,6 @@ import com.tim2.bank.model.Uplata;
 public interface PlacanjeService {
 	public String acquirerProveriZahtev(Uplata uplata);
 	public RezultatTransakcije issuerProveriZahtev(Transakcija transakcija);
-	public boolean proveriUrl(String uplataLink, Long uplataId);
+	public double proveriUrl(String uplataLink, Long uplataId);
+	public Transakcija setAcquirerSwiftCode(Transakcija transakcija);
 }

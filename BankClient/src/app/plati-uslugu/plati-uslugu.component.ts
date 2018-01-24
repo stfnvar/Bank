@@ -25,6 +25,8 @@ export class PlatiUsluguComponent implements OnInit {
   sigurnosniBroj: string;
   brojKartice: string;
 
+  iznos: string;
+
   transakcija: Transakcija = {
     pan: "",
     sigurnosniKod: "",
@@ -39,9 +41,11 @@ export class PlatiUsluguComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       let paymentUrl = params["payment_url"];
       let paymentId = params["payment_id"]; 
-      if(!this.platiUsluguService.checkPaymentValidity(paymentUrl, paymentId)){
-        this.router.navigate(['pr']);
-      }
+      this.platiUsluguService.checkPaymentValidity(paymentUrl, paymentId)
+        .then(iznos =>  {this.iznos = iznos.toString()} );
+      //if(this.iznos == -1){
+        //this.router.navigate(['pr']);
+      //}
     });
   }
 
@@ -53,6 +57,8 @@ export class PlatiUsluguComponent implements OnInit {
     this.transakcija.acquirerTimestamp = this.generateACQUIRER_TIMESTAMP();
     this.transakcija.acquirerOrderId = this.generateACQUIRER_ORDER_ID(this.transakcija.pan, this.transakcija.sigurnosniKod, this.transakcija.acquirerTimestamp);
     
+    this.transakcija.iznos = this.iznos;
+
     this.platiUsluguService.postTransakcija(this.transakcija);
   }
 
