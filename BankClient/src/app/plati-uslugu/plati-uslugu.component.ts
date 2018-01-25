@@ -10,6 +10,8 @@ import { PlatiUsluguService } from '../service/plati-uslugu.service';
 import { Transakcija } from '../shared/Transakcija';
 import { Md5 } from 'ts-md5/dist/md5'; 
 
+import { Uplata } from '../shared/Uplata';
+
 @Component({
   selector: 'app-plati-uslugu',
   templateUrl: './plati-uslugu.component.html',
@@ -25,7 +27,7 @@ export class PlatiUsluguComponent implements OnInit {
   sigurnosniBroj: string;
   brojKartice: string;
 
-  iznos: string;
+  uplata: Uplata;
 
   transakcija: Transakcija = {
     pan: "",
@@ -34,7 +36,8 @@ export class PlatiUsluguComponent implements OnInit {
     datumVazenja: new Date(),
     iznos: "",
     acquirerOrderId: "",
-    acquirerTimestamp: ""
+    acquirerTimestamp: "",
+    uplataId: 0
   };
 
   ngOnInit() {
@@ -42,7 +45,7 @@ export class PlatiUsluguComponent implements OnInit {
       let paymentUrl = params["payment_url"];
       let paymentId = params["payment_id"]; 
       this.platiUsluguService.checkPaymentValidity(paymentUrl, paymentId)
-        .then(iznos =>  {this.iznos = iznos.toString()} );
+        .then(uplata =>  {this.uplata = uplata} );
       //if(this.iznos == -1){
         //this.router.navigate(['pr']);
       //}
@@ -57,7 +60,8 @@ export class PlatiUsluguComponent implements OnInit {
     this.transakcija.acquirerTimestamp = this.generateACQUIRER_TIMESTAMP();
     this.transakcija.acquirerOrderId = this.generateACQUIRER_ORDER_ID(this.transakcija.pan, this.transakcija.sigurnosniKod, this.transakcija.acquirerTimestamp);
     
-    this.transakcija.iznos = this.iznos;
+    this.transakcija.iznos = this.uplata.iznos.toString();
+    this.transakcija.uplataId = this.uplata.uplataIdDatabase;
 
     this.platiUsluguService.postTransakcija(this.transakcija);
   }

@@ -1,7 +1,7 @@
 export class Transakcija {
 
     constructor(pan:string, sigurnosniKod: string, nazivVlasnikaKartice: string,
-         datumVazenja: Date, iznos: string, acquirerOrderId: string, acquirerTimestamp:string){
+         datumVazenja: Date, iznos: string, acquirerOrderId: string, acquirerTimestamp:string, uplataId:number){
             this.pan = pan;
             this.sigurnosniKod = sigurnosniKod;
             this.iznos = iznos;
@@ -9,6 +9,7 @@ export class Transakcija {
             this.nazivVlasnikaKartice = nazivVlasnikaKartice;
             this.acquirerOrderId = acquirerOrderId;
             this.acquirerTimestamp = acquirerTimestamp;
+            this.uplataId = uplataId;
     }
 
     pan: string;
@@ -18,5 +19,7 @@ export class Transakcija {
 	iznos: string;
 	
 	acquirerOrderId: string;
-	acquirerTimestamp: string;
+    acquirerTimestamp: string;
+
+    uplataId: number;
 }

@@ -28,16 +28,18 @@ public class Transakcija {
 	protected String acquirerOrderId;
 	@Column
 	protected String acquirerTimestamp;
-	
 	@Column
 	protected String acquirerSwiftCode;
+	
+	@Column
+	protected Long uplataId;
 	
 	public Transakcija(){
 		
 	}
 	
 	public Transakcija(String pan, String sigurnosniKod, String nazivVlasnikaKartice, Date datumVazenja, String iznos,
-			String acquirerOrderId, String acquirerTimestamp, String acquirerSwiftCode) {
+			String acquirerOrderId, String acquirerTimestamp, String acquirerSwiftCode, Long uplataId) {
 		super();
 		this.pan = pan;
 		this.sigurnosniKod = sigurnosniKod;
@@ -47,8 +49,17 @@ public class Transakcija {
 		this.acquirerOrderId = acquirerOrderId;
 		this.acquirerTimestamp = acquirerTimestamp;
 		this.acquirerSwiftCode = acquirerSwiftCode;
+		this.uplataId = uplataId;
 	}
 	
+	public Long getUplataId() {
+		return uplataId;
+	}
+
+	public void setUplataId(Long uplataId) {
+		this.uplataId = uplataId;
+	}
+
 	public String getAcquirerSwiftCode() {
 		return acquirerSwiftCode;
 	}

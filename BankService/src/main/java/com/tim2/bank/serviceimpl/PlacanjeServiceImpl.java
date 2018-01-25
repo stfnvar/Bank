@@ -72,13 +72,14 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	}
 	
 	@Override
-	public double proveriUrl(String uplataLink, Long uplataId) {
+	public Uplata proveriUrl(String uplataLink, Long uplataId) {
 		Uplata uplata = uplataRepository.getUplataByUplataLinkContainingAndUplataIdDatabase(uplataLink, uplataId);
 		if(uplata != null) {
 			System.out.println("UPLATAAA: " + uplata.getIznos());
-			return uplata.getIznos();
+			return uplata;
+			//return uplata.getIznos();
 		}
-		return -1;
+		return null;
 	}
 
 	@Override
@@ -88,12 +89,17 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 		String issuerTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 		RezultatTransakcije rz = new RezultatTransakcije(transakcija.getPan(), transakcija.getSigurnosniKod(),
 				transakcija.getNazivVlasnikaKartice(), transakcija.getDatumVazenja(), transakcija.getIznos(),
-				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), transakcija.getAcquirerSwiftCode(),tran.getId().toString(), issuerTimestamp, false);
-		if (Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos()) > 0) {
-			rz.setRezultat(true);
-			racun.setStanjeRacuna( Double.toString(Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos())) );
-			racunRepository.save(racun);
-		}
+				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), transakcija.getAcquirerSwiftCode(),tran.getId().toString(), issuerTimestamp, false, transakcija.getUplataId());
+		//if(racun.isAktivan() && racun.getSigurnosniKod() == transakcija.getSigurnosniKod()){
+			System.out.println(racun.getDatumVazenja().after(transakcija.getDatumVazenja()));
+			System.out.println(racun.getDatumVazenja());
+			System.out.println(transakcija.getDatumVazenja());
+			if (Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos()) > 0) {
+				rz.setRezultat(true);
+				racun.setStanjeRacuna( Double.toString(Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos())) );
+				racunRepository.save(racun);
+			}
+		//}
 
 		return rz;
 	}

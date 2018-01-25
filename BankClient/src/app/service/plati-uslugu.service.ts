@@ -4,6 +4,7 @@ import { Http } from '@angular/http'
 
 import { Transakcija } from '../shared/Transakcija';
 import { error } from 'util';
+import { Uplata } from '../shared/Uplata';
 
 @Injectable()
 export class PlatiUsluguService {
@@ -11,14 +12,12 @@ export class PlatiUsluguService {
   constructor(private http: Http) {}
 
   postTransakcija(transakcija: Transakcija){
-    
       this.http.post('/api/placanje/unesiPodatke/', transakcija).toPromise();
   }
   
-  checkPaymentValidity(paymentUrl: string, paymentId: string): Promise<number> {
+  checkPaymentValidity(paymentUrl: string, paymentId: string): Promise<Uplata> {
     return this.http.get("/api/placanje/proveriUrl?paymentUrl="+paymentUrl + "&paymentId="+paymentId).
-    toPromise().then(response => { return response.json() as number}).catch(this.handleError);
-  
+    toPromise().then(response => { console.log(response.json()); return response.json() as Uplata;}).catch(this.handleError);
   }
     
   private handleError(error: any) : Promise<any>{

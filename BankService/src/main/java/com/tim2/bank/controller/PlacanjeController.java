@@ -45,7 +45,7 @@ public class PlacanjeController {
 	
 	@RequestMapping(method=RequestMethod.GET, path="/proveriUrl", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public double proveriUrl(@RequestParam("paymentUrl") String paymentUrl, @RequestParam("paymentId") Long paymentId){
+	public Uplata proveriUrl(@RequestParam("paymentUrl") String paymentUrl, @RequestParam("paymentId") Long paymentId){
 		return placanjeServiceImpl.proveriUrl(paymentUrl, paymentId);
 	}
 	
@@ -70,7 +70,11 @@ public class PlacanjeController {
 	@ResponseBody
 	public void zabeleziPodatke(@RequestBody RezultatTransakcije rezultatTransakcije){
 		System.out.println("OK");
-		//return "ok";
+		System.out.println(rezultatTransakcije);
+		if(rezultatTransakcije.isRezultat()){
+			restTemplate.postForObject(uri.getConcetratorUri() + "/pay/successUplata/"+rezultatTransakcije.getUplataId(), rezultatTransakcije, Void.class);
+		}
+		restTemplate.postForObject(uri.getConcetratorUri() + "/pay/cancelUplata/"+rezultatTransakcije.getUplataId(), rezultatTransakcije, Void.class);
 	}
 
 }
