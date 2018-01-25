@@ -2,7 +2,6 @@ package com.tim2.bank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +42,7 @@ public class PlacanjeController {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, path="/proveriUrl", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody()
+	@ResponseBody
 	public double proveriUrl(@RequestParam("paymentUrl") String paymentUrl, @RequestParam("paymentId") Long paymentId){
 		return placanjeServiceImpl.proveriUrl(paymentUrl, paymentId);
 	}
@@ -53,22 +52,23 @@ public class PlacanjeController {
 	@ResponseBody
 	public Transakcija unesiPodatke(@RequestBody Transakcija transakcija){
 		placanjeServiceImpl.setAcquirerSwiftCode(transakcija);
-		return restTemplate.postForObject(uri.getPccUri()+"/transakcija/proslediZahtev", transakcija, Transakcija.class);
+		restTemplate.postForObject(uri.getPccUri()+"/transakcija/proslediZahtev", transakcija, Void.class);
+		return transakcija;
 	}
 	
 	//issuer prima transakciju od pcc-a(koji ga je nasao), proverava da li je u redu i vraca rezultat transakcije pcc-u
 	@PostMapping("/proveriZahtev")
-	@ResponseBody
-	public Transakcija proveriZahtev(@RequestBody Transakcija transakcija){
+	public void proveriZahtev(@RequestBody Transakcija transakcija){
+		System.out.println("[ISSUER] PROVERIZAHTEV USAO");
 		RezultatTransakcije rz = placanjeServiceImpl.issuerProveriZahtev(transakcija);
-		return restTemplate.postForObject(uri.getPccUri() + "/transakcija/proslediOdgovor", rz, RezultatTransakcije.class);
+		restTemplate.postForObject(uri.getPccUri() + "/transakcija/proslediOdgovor", rz, Void.class);
 	}
 	
 	@PostMapping("/zabeleziPodatke")
 	@ResponseBody
-	public String zabeleziPodatke(@RequestBody RezultatTransakcije rezultatTransakcije){
+	public void zabeleziPodatke(@RequestBody RezultatTransakcije rezultatTransakcije){
 		System.out.println("OK");
-		return "ok";
+		//return "ok";
 	}
 
 }
