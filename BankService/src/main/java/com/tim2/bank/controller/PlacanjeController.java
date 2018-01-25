@@ -2,6 +2,7 @@ package com.tim2.bank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +33,10 @@ public class PlacanjeController {
 	
 	//acquirer bankaOsiguravajuceKuce
 	
-	@PostMapping("/generisiPlacanjeLink")
+	@PostMapping("/generisiPlacanjeLink/{osiguranjeId}")
 	@ResponseBody
-	public String generisiPlacanjeLink(@RequestBody Uplata uplata){
+	public String generisiPlacanjeLink(@RequestBody Uplata uplata,@PathVariable("osiguranjeId") Long osiguranjeId){
+		uplata.setOsiguranjeId(osiguranjeId);
 		String ret = placanjeServiceImpl.acquirerProveriZahtev(uplata);
 		//vracati na insurance web app() vs direktno front odmah(+2)
 		//poslati na front wrapper koji sadrzi uplatu i link!

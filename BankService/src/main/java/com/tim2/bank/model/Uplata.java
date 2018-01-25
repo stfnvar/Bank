@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -30,13 +32,13 @@ public class Uplata {
 	private String errorUrl;
 	
 	@Column
-	private Osiguranje osiguranje;
+	private Long osiguranjeId;
 	
 	@Column
 	private StatusUplate status;
 	
-	@Column
-	private String nacinPlacanja;
+	@Enumerated(EnumType.STRING)
+	private TipUplate tipUplate;
 	
 	@Column
 	private String uplataLink;
@@ -80,11 +82,12 @@ public class Uplata {
 	public void setErrorUrl(String errorUrl) {
 		this.errorUrl = errorUrl;
 	}
-	public Osiguranje getOsiguranje() {
-		return osiguranje;
+
+	public Long getOsiguranjeId() {
+		return osiguranjeId;
 	}
-	public void setOsiguranje(Osiguranje osiguranje) {
-		this.osiguranje = osiguranje;
+	public void setOsiguranjeId(Long osiguranjeId) {
+		this.osiguranjeId = osiguranjeId;
 	}
 	public StatusUplate getStatus() {
 		return status;
@@ -92,11 +95,11 @@ public class Uplata {
 	public void setStatus(StatusUplate status) {
 		this.status = status;
 	}
-	public String getNacinPlacanja() {
-		return nacinPlacanja;
+	public TipUplate getTipUplate() {
+		return tipUplate;
 	}
-	public void setNacinPlacanja(String nacinPlacanja) {
-		this.nacinPlacanja = nacinPlacanja;
+	public void setTipUplate(TipUplate tipUplate) {
+		this.tipUplate = tipUplate;
 	}
 	public String getUplataLink() {
 		return uplataLink;
