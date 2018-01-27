@@ -90,7 +90,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 		RezultatTransakcije rz = new RezultatTransakcije(transakcija.getPan(), transakcija.getSigurnosniKod(),
 				transakcija.getNazivVlasnikaKartice(), transakcija.getDatumVazenja(), transakcija.getIznos(),
 				transakcija.getAcquirerOrderId(), transakcija.getAcquirerTimestamp(), transakcija.getAcquirerSwiftCode(),tran.getId().toString(), issuerTimestamp, false, transakcija.getUplataId());
-		//if(racun.isAktivan() && racun.getSigurnosniKod() == transakcija.getSigurnosniKod()){
+		if(racun.isAktivan() && racun.getSigurnosniKod().equals(transakcija.getSigurnosniKod())){
 			System.out.println(racun.getDatumVazenja().after(transakcija.getDatumVazenja()));
 			System.out.println(racun.getDatumVazenja());
 			System.out.println(transakcija.getDatumVazenja());
@@ -99,7 +99,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 				racun.setStanjeRacuna( Double.toString(Double.parseDouble(racun.getStanjeRacuna()) - Double.parseDouble(transakcija.getIznos())) );
 				racunRepository.save(racun);
 			}
-		//}
+		}
 
 		return rz;
 	}

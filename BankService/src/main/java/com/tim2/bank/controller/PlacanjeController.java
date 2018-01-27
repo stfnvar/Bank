@@ -54,6 +54,9 @@ public class PlacanjeController {
 	@ResponseBody
 	public Transakcija unesiPodatke(@RequestBody Transakcija transakcija){
 		placanjeServiceImpl.setAcquirerSwiftCode(transakcija);
+		transakcija.setNazivVlasnikaKartice(transakcija.getNazivVlasnikaKartice().trim());
+		transakcija.setSigurnosniKod(transakcija.getSigurnosniKod().trim());
+		transakcija.setPan(transakcija.getPan().trim());
 		restTemplate.postForObject(uri.getPccUri()+"/transakcija/proslediZahtev", transakcija, Void.class);
 		return transakcija;
 	}
