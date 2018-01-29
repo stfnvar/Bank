@@ -8,4 +8,5 @@ public interface UplataRepository extends JpaRepository<Uplata, Long>{
 	
 	public Uplata getUplataByUplataLinkContainingAndUplataIdDatabase(String uplataLink, Long uplataId);
 	
+	public Uplata getUplataByUplataIdDatabase(Long uplataIdDatabase);
 }

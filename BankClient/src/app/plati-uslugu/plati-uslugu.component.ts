@@ -12,6 +12,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 import { Uplata } from '../shared/Uplata';
 
+
 @Component({
   selector: 'app-plati-uslugu',
   templateUrl: './plati-uslugu.component.html',
@@ -28,6 +29,8 @@ export class PlatiUsluguComponent implements OnInit {
   brojKartice: string;
 
   uplata: Uplata;
+
+  uspesnaTransakcija: string;
 
   transakcija: Transakcija = {
     pan: "",
@@ -63,7 +66,18 @@ export class PlatiUsluguComponent implements OnInit {
     this.transakcija.iznos = this.uplata.iznos.toString();
     this.transakcija.uplataId = this.uplata.uplataIdDatabase;
 
-    this.platiUsluguService.postTransakcija(this.transakcija);
+    this.platiUsluguService.postTransakcija(this.transakcija).then( () => {
+      this.platiUsluguService.checkTransactionSuccess(this.transakcija.uplataId)
+      .then(response => 
+        {
+          if(response)
+            this.uspesnaTransakcija = "Uspesna";
+          else
+            this.uspesnaTransakcija = "Neuspesna";
+        });
+    });
+
+    
   }
 
   private generateACQUIRER_TIMESTAMP(): string {

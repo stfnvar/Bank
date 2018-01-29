@@ -71,13 +71,23 @@ public class PlacanjeController {
 	
 	@PostMapping("/zabeleziPodatke")
 	@ResponseBody
-	public void zabeleziPodatke(@RequestBody RezultatTransakcije rezultatTransakcije){
+	public boolean zabeleziPodatke(@RequestBody RezultatTransakcije rezultatTransakcije){
 		System.out.println("OK");
 		System.out.println(rezultatTransakcije);
+		placanjeServiceImpl.invalidirajLinkUplate(rezultatTransakcije);
 		if(rezultatTransakcije.isRezultat()){
-			restTemplate.postForObject(uri.getConcetratorUri() + "/pay/successUplata/"+rezultatTransakcije.getUplataId(), rezultatTransakcije, Void.class);
+			//restTemplate.postForObject(uri.getConcetratorUri() + "/pay/successUplata/"+rezultatTransakcije.getUplataId(), rezultatTransakcije, Void.class);
+			return true;
 		}
-		restTemplate.postForObject(uri.getConcetratorUri() + "/pay/cancelUplata/"+rezultatTransakcije.getUplataId(), rezultatTransakcije, Void.class);
+		//restTemplate.postForObject(uri.getConcetratorUri() + "/pay/cancelUplata/"+rezultatTransakcije.getUplataId(), rezultatTransakcije, Void.class);
+		return false;
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, path="/test", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean test(@RequestParam("uplataId") long uplataId){
+		System.out.println("AJDIIIII " + uplataId);
+		return placanjeServiceImpl.proveriUspesnostTransakcije(uplataId);
 	}
 
 }

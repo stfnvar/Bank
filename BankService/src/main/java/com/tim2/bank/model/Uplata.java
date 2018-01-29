@@ -42,10 +42,19 @@ public class Uplata {
 	
 	@Column
 	private String uplataLink;
+	
+	@Column
+	private boolean aktivanLink;
 
 	@Column
 	private Long uplataIdDatabase;
 	
+	public boolean isAktivanLink() {
+		return aktivanLink;
+	}
+	public void setAktivanLink(boolean aktivanLink) {
+		this.aktivanLink = aktivanLink;
+	}
 	public Long getId() {
 		return id;
 	}

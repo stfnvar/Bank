@@ -14,6 +14,7 @@ import com.tim2.bank.model.Transakcija;
 import com.tim2.bank.model.Uplata;
 import com.tim2.bank.repository.KlijentRepository;
 import com.tim2.bank.repository.RacunRepository;
+import com.tim2.bank.repository.RezultatTransakcijeRepository;
 import com.tim2.bank.repository.TransakcijaRepository;
 import com.tim2.bank.repository.UplataRepository;
 import com.tim2.bank.service.PlacanjeService;
@@ -33,6 +34,9 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	@Autowired
 	private UplataRepository uplataRepository;
 	
+	@Autowired
+	private RezultatTransakcijeRepository rezultatTransakcijeRepository;
+	
 	@Override
 	public String acquirerProveriZahtev(Uplata uplata) {
 		Klijent klijent = klijentRepository.findKlijentByMerchantId(uplata.getTrgovacId());
@@ -41,6 +45,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 			String url = generatePaymentUrl(uplata.getId());
 			
 			uplata.setUplataLink(url);
+			uplata.setAktivanLink(true);
 			uplata.setUplataIdDatabase(uplata.getId());
 			uplata.setId(null);
 			
@@ -74,7 +79,8 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	@Override
 	public Uplata proveriUrl(String uplataLink, Long uplataId) {
 		Uplata uplata = uplataRepository.getUplataByUplataLinkContainingAndUplataIdDatabase(uplataLink, uplataId);
-		if(uplata != null) {
+		System.out.println("ISAKTIVANLINK" + uplata.isAktivanLink());
+		if(uplata != null && uplata.isAktivanLink()) {
 			System.out.println("UPLATAAA: " + uplata.getIznos());
 			return uplata;
 			//return uplata.getIznos();
@@ -108,5 +114,23 @@ public class PlacanjeServiceImpl implements PlacanjeService {
 	public Transakcija setAcquirerSwiftCode(Transakcija transakcija) {
 		transakcija.setAcquirerSwiftCode("789");
 		return transakcija;
+	}
+
+	@Override
+	public void invalidirajLinkUplate(RezultatTransakcije rz) {
+		Uplata uplata = uplataRepository.getUplataByUplataIdDatabase(rz.getUplataId());
+		//System.out.println("DUDUDD " + uplata);
+		uplata.setAktivanLink(false);
+		uplataRepository.save(uplata);
+		rezultatTransakcijeRepository.save(rz);
+	}
+
+	@Override
+	public boolean proveriUspesnostTransakcije(Long uplataId) {
+		RezultatTransakcije rz = rezultatTransakcijeRepository.findRezultatTransakcijeByUplataId(uplataId);
+		if(rz.isRezultat()){
+			return true;
+		}
+		return false;
 	}
 }

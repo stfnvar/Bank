@@ -2,10 +2,19 @@ package com.tim2.bank.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "RezultatTransakcije")
 public class RezultatTransakcije extends Transakcija {
 	
+	private static final long serialVersionUID = 8839516770841134432L;
+	
+	@Column
 	private String issuerOrderId;
+	@Column
 	private String issuerTimestamp;
+	@Column
 	private boolean rezultat;
 	
 	public RezultatTransakcije(){

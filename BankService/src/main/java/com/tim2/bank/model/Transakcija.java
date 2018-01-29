@@ -1,17 +1,24 @@
 package com.tim2.bank.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
-public class Transakcija {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Transakcija implements Serializable {
 	
+	private static final long serialVersionUID = -7082511327064373696L;
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
 	@Column

@@ -7,5 +7,5 @@ import com.tim2.bank.model.Transakcija;
 
 @Repository
 public interface TransakcijaRepository extends JpaRepository<Transakcija, Long>{
-
+	
 }

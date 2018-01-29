@@ -9,4 +9,6 @@ public interface PlacanjeService {
 	public RezultatTransakcije issuerProveriZahtev(Transakcija transakcija);
 	public Uplata proveriUrl(String uplataLink, Long uplataId);
 	public Transakcija setAcquirerSwiftCode(Transakcija transakcija);
+	public void invalidirajLinkUplate(RezultatTransakcije rt);
+	public boolean proveriUspesnostTransakcije(Long uplataId);
 }
