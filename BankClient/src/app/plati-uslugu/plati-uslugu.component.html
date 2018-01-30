@@ -2,6 +2,14 @@
   <form class="form-horizontal" role="form" (ngSubmit)="onSubmit()" #transakcijaForm="ngForm">
     <fieldset>
       <legend>Plaćanje</legend>
+      <div [hidden]="!obavestenjeOTransakciji">
+        <div [hidden]="!uspesnaTransakcija" class="alert alert-info" role="alert" style="width: 20%">
+            <strong>Uspesna transakcija!</strong> 
+        </div>
+        <div [hidden]="uspesnaTransakcija" class="alert alert-danger" role="alert" style="width: 20%">
+            <strong>Neuspesna transakcija!</strong> 
+        </div>
+      </div>
       <div class="form-group">
         <label class="col-sm-3 control-label"  for="card-holder-name">Vlasnik kartice</label>
         <div class="col-sm-9">
@@ -92,4 +100,3 @@
     </fieldset>
   </form>
 </div>
-<div>Uspesna transakcija: {{uspesnaTransakcija}}</div>

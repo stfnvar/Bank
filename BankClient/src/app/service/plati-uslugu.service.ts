@@ -17,7 +17,7 @@ export class PlatiUsluguService {
   
   checkPaymentValidity(paymentUrl: string, paymentId: string): Promise<Uplata> {
     return this.http.get("/api/placanje/proveriUrl?paymentUrl="+paymentUrl + "&paymentId="+paymentId).
-    toPromise().then(response => { console.log(response.json()); return response.json() as Uplata;}).catch(this.handleError);
+    toPromise().then(response => { console.log(response.json()); return response.json() as Uplata;}).catch(this.handleProveraLinkaError);
   }
 
   checkTransactionSuccess(id: number) : Promise<boolean>{
@@ -28,5 +28,9 @@ export class PlatiUsluguService {
   private handleError(error: any) : Promise<any>{
       console.error("An error occured: ", error);
       return Promise.reject(error.message || error);
+  }
+
+  private handleProveraLinkaError(error: any) : Promise<any>{
+    return Promise.apply(window.location.href = "http://localhost:2100/nevalidan-link");
   }
 }

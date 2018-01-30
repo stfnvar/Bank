@@ -14,19 +14,24 @@ import { AppRoutingModule} from './app-routing/app-routing.module'
 import { PlatiUsluguService } from './service/plati-uslugu.service';
 import { BankaService } from './service/banka.service';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NevalidanLinkComponent } from './nevalidan-link/nevalidan-link.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PlatiUsluguComponent
+    PlatiUsluguComponent,
+    NevalidanLinkComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     AppRoutingModule,
     FormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgbModule.forRoot()
   ],
   providers: [
     PlatiUsluguService,

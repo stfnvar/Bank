@@ -30,7 +30,8 @@ export class PlatiUsluguComponent implements OnInit {
 
   uplata: Uplata;
 
-  uspesnaTransakcija: string;
+  uspesnaTransakcija: boolean;
+  obavestenjeOTransakciji: boolean;
 
   transakcija: Transakcija = {
     pan: "",
@@ -70,10 +71,8 @@ export class PlatiUsluguComponent implements OnInit {
       this.platiUsluguService.checkTransactionSuccess(this.transakcija.uplataId)
       .then(response => 
         {
-          if(response)
-            this.uspesnaTransakcija = "Uspesna";
-          else
-            this.uspesnaTransakcija = "Neuspesna";
+          this.obavestenjeOTransakciji = true;
+          this.uspesnaTransakcija = response;
         });
     });
 
