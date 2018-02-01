@@ -31,6 +31,6 @@ export class PlatiUsluguService {
   }
 
   private handleProveraLinkaError(error: any) : Promise<any>{
-    return Promise.apply(window.location.href = "http://localhost:2100/nevalidan-link");
+    return Promise.apply(window.location.href = "https://localhost:2100/nevalidan-link");
   }
 }
