@@ -71,7 +71,7 @@ public class PlacanjeServiceImpl implements PlacanjeService {
         	builder.append(characters.charAt(index));
         }
         
-        String ret = "http://localhost:2100/plati-uslugu/" + builder.toString() + "/" + id;
+        String ret = "https://localhost:2100/plati-uslugu/" + builder.toString() + "/" + id;
 		
 		return ret;
 	}

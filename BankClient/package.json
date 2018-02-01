@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json --port 2100",
+    "start": "ng serve --ssl 1 -- ssl-key \"..cert\\server.key\" --ssl-cert \"..cert\\server.crt\" --proxy-config proxy.conf.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -23,6 +23,7 @@
     "@angular/router": "^5.2.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0",
     "bootstrap": "^3.3.7",
+    "browser-sync": "^2.23.6",
     "core-js": "^2.4.1",
     "ngx-bootstrap": "^2.0.0-rc.0",
     "rxjs": "^5.5.6",
